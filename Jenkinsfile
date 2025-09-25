@@ -28,19 +28,15 @@ pipeline {
         }
 
         stage('SonarCloud Analysis') {
-            steps {
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                    sh '''
-                    npm install sonar-scanner && \
-                    npx sonar-scanner \
-                    -Dsonar.organization=itseddie129 \
-                    -Dsonar.projectKey=itseddie129_8.2CDevSecOps \
-                    -Dsonar.sources=. \
-                    -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=$SONAR_TOKEN
-                    '''
-                }
-            }
+    steps {
+        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+            sh '''
+            npm install sonar-scanner && \
+            npx sonar-scanner \
+              -Dsonar.login=$SONAR_TOKEN
+            '''
         }
+    }
+}
     }
 }
