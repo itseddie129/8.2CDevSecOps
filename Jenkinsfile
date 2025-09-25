@@ -31,10 +31,15 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     sh '''
-                        wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip && \
-                        unzip sonar-scanner-cli-5.0.1.3006-linux.zip && \
-                        export PATH=$PATH:$(pwd)/sonar-scanner-5.0.1.3006-linux/bin && \
-                        sonar-scanner
+                    curl -O https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip && \
+                    unzip sonar-scanner-cli-5.0.1.3006-linux.zip && \
+                    export PATH=$PATH:$(pwd)/sonar-scanner-5.0.1.3006-linux/bin && \
+                    sonar-scanner \
+                      -Dsonar.organization=itseddie129 \
+                      -Dsonar.projectKey=itseddie129_8.2CDevSecOps \
+                      -Dsonar.sources=. \
+                      -Dsonar.host.url=https://sonarcloud.io \
+                      -Dsonar.login=$SONAR_TOKEN
                     '''
                 }
             }
