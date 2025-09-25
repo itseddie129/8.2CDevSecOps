@@ -31,7 +31,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     sh '''
-                        npm install -g sonar-scanner
+                        npm install sonar-scanner
                         
                         sonar-scanner \
                         -Dsonar.projectKey=itseddie129_8.2CDevSecOps \
