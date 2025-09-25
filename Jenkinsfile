@@ -27,11 +27,11 @@ pipeline {
             }
         }
 
-     stage('SonarCloud Analysis') {
+    stage('SonarCloud Analysis') {
     steps {
         withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
             sh '''
-            npm install -g sonar-scanner
+            npm install sonar-scanner
 
             npx sonar-scanner \
               -Dsonar.projectKey=itseddie129_8.2CDevSecOps \
@@ -43,5 +43,6 @@ pipeline {
         }
     }
 }
+    
     }
 }
