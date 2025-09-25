@@ -2,19 +2,28 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Building the application...'
+                sh 'npm install'
             }
         }
-        stage('Test') {
+
+        stage('Run Tests') {
             steps {
-                echo 'Running tests...'
+                sh 'npm test || true'
             }
         }
-        stage('Deploy') {
+
+        stage('Generate Coverage Report') {
             steps {
-                echo 'Deploying the application...'
+                sh 'echo "Pretend we are generating a coverage report..."'
+            }
+        }
+
+        stage('NPM Audit (Security Scan)') {
+            steps {
+                sh 'npm audit --json > audit-results.json || true'
+                archiveArtifacts artifacts: 'audit-results.json', allowEmptyArchive: true
             }
         }
     }
