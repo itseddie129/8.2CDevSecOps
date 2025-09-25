@@ -27,17 +27,17 @@ pipeline {
             }
         }
 
-      stage('SonarCloud Analysis') {
+     stage('SonarCloud Analysis') {
     steps {
         withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
             sh '''
-            # Download and unzip SonarScanner CLI
-            curl -O https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-            unzip -o sonar-scanner-cli-5.0.1.3006-linux.zip
-            export PATH=$PATH:$(pwd)/sonar-scanner-5.0.1.3006-linux/bin
+            npm install -g sonar-scanner
 
-            # Run SonarScanner using sonar-project.properties
-            sonar-scanner \
+            npx sonar-scanner \
+              -Dsonar.projectKey=itseddie129_8.2CDevSecOps \
+              -Dsonar.organization=itseddie129 \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=https://sonarcloud.io \
               -Dsonar.login=$SONAR_TOKEN
             '''
         }
