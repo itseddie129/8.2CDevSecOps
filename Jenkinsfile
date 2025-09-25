@@ -26,23 +26,22 @@ pipeline {
                 archiveArtifacts artifacts: 'audit-results.json', allowEmptyArchive: true
             }
         }
-
-    stage('SonarCloud Analysis') {
-    steps {
-        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-            sh '''
-            npm install sonar-scanner
-
-            npx sonar-scanner \
-              -Dsonar.projectKey=itseddie129_8.2CDevSecOps \
-              -Dsonar.organization=itseddie129 \
-              -Dsonar.sources=. \
-              -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.login=$SONAR_TOKEN
-            '''
+        
+        stage('SonarCloud Analysis') {
+            steps {
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                    sh '''
+                        npm install -g sonar-scanner
+                        
+                        sonar-scanner \
+                        -Dsonar.projectKey=itseddie129_8.2CDevSecOps \
+                        -Dsonar.organization=itseddie129 \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=https://sonarcloud.io \
+                        -Dsonar.login=$SONAR_TOKEN
+                    '''
+                }
+            }
         }
-    }
-}
-    
     }
 }
