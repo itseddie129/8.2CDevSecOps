@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NOTIFY_EMAIL = 's223547799@deakin.edu.au'
+        NOTIFY_EMAIL = 'eddieeee23@gmail.com'
     }
 
     stages {
