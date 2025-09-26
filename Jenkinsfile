@@ -32,10 +32,12 @@ pipeline {
                 always {
                     emailext(
                         to: "${env.NOTIFY_EMAIL}",
-                        subject: "Test stage completed: ${currentBuild.currentResult}",
-                        body: "Check attached logs from the Test stage.",
-                        attachmentsPattern: 'test-output.log',
-                        attachLog: true
+                        subject: "Test Stage Completed: ${currentBuild.currentResult}",
+                        body: """Hello,<br>
+The <b>Test</b> stage has finished.<br>
+Check attached logs for details.<br>
+Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a>""",
+                        attachmentsPattern: 'test-output.log'
                     )
                 }
             }
@@ -49,26 +51,29 @@ pipeline {
                 always {
                     emailext(
                         to: "${env.NOTIFY_EMAIL}",
-                        subject: "npm Audit Report: ${currentBuild.currentResult}",
-                        body: "Check attached npm audit report.",
-                        attachmentsPattern: 'audit-report.log',
-                        attachLog: true
+                        subject: "npm Audit Stage Completed: ${currentBuild.currentResult}",
+                        body: """Hello,<br>
+The <b>npm audit</b> stage has finished.<br>
+Check attached report for vulnerabilities.<br>
+Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a>""",
+                        attachmentsPattern: 'audit-report.log'
                     )
                 }
             }
         }
     }
 
-
     post {
         always {
             script {
-                // Use try/catch to prevent Jenkins from skipping the email
                 try {
                     emailext(
                         to: "${env.NOTIFY_EMAIL}",
                         subject: "Build Completed: ${currentBuild.currentResult} - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                        body: "The build has finished. Check console and attached logs if needed.",
+                        body: """Hello,<br>
+The pipeline build has <b>${currentBuild.currentResult}</b>.<br>
+Check Jenkins console for logs:<br>
+<a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a>""",
                         attachLog: true
                     )
                 } catch (err) {
